@@ -1,6 +1,7 @@
 package cs2103;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Paneer {
     public static void main(String[] args) {
@@ -8,8 +9,8 @@ public class Paneer {
 
         final String LINE = "____________________________________________________________";
 
-        Task[] tasks = new Task[100];
-        int size = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
+
 
         System.out.println(LINE);
         System.out.println(" Hello! I'm Paneer");
@@ -36,8 +37,8 @@ public class Paneer {
                 if (input.equalsIgnoreCase("list")) {
                     System.out.println(LINE);
                     System.out.println(" Here are the tasks in your list:");
-                    for (int i = 0; i < size; i++) {
-                        System.out.println(" " + (i + 1) + "." + tasks[i]);
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println(" " + (i + 1) + "." + tasks.get(i));
                     }
                     System.out.println(LINE);
                     continue;
@@ -47,11 +48,11 @@ public class Paneer {
                 if (input.startsWith("mark ")) {
                     char c = input.charAt(input.length() - 1); // last char
                     int index = (c - '0') - 1;                 // convert char to number
-                    if (index >= 0 && index < size) {
-                        tasks[index].markDone();
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).markDone();
                         System.out.println(LINE);
                         System.out.println(" Nice! I've marked this task as done:");
-                        System.out.println("   " + tasks[index]);
+                        System.out.println("   " + tasks.get(index));
                         System.out.println(LINE);
                     }
                     continue;
@@ -61,26 +62,37 @@ public class Paneer {
                 if (input.startsWith("unmark ")) {
                     char c = input.charAt(input.length() - 1); //last char
                     int index = (c - '0') - 1;
-                    if (index >= 0 && index < size) {
-                        tasks[index].markUndone();
+                    if (index >= 0 && index < tasks.size()) {
+                        tasks.get(index).markUndone();
                         System.out.println(LINE);
                         System.out.println(" OK, I've marked this task as not done yet:");
-                        System.out.println("   " + tasks[index]);
+                        System.out.println("   " + tasks.get(index));
                         System.out.println(LINE);
                     }
                     continue;
                 }
+
+
+
+
                 // add task
                 String[] parts = input.split(" ", 2); // split into [command, rest]
                 String command = parts[0];
                 String rest = (parts.length > 1) ? parts[1] : "";
-
                 Task newTask = null;
+
+                if (command.equals("delete")) {
+                    Task removed = tasks.remove((Integer.parseInt(parts[1]) -1));
+                    System.out.println(LINE);
+                    System.out.println(" Noted. I've removed this task:");
+                    System.out.println("   " + removed);
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
+                    System.out.println(LINE);
+                }
 
                 if (command.equalsIgnoreCase("todo")) {
                     if (rest.isEmpty()) {
                         throw new PaneerException("I have no idea what you mean, try again.");
-
                     }
                     newTask = new ToDos(rest);
 
@@ -101,18 +113,15 @@ public class Paneer {
                     if (tparts.length == 2) {
                         newTask = new Event(desc, tparts[0].trim(), tparts[1].trim());
                     }
-                } else {
-                    throw new PaneerException("Who do you think I am? Tofu? Type something worthy of Paneer's help!");
                 }
 
 
-                if (newTask != null && size < tasks.length) {
-                    tasks[size] = newTask;
-                    size++;
+                if (newTask != null) {
+                    tasks.add(newTask);
                     System.out.println(LINE);
                     System.out.println(" Got it. I've added this task:");
                     System.out.println("   " + newTask);
-                    System.out.println(" Now you have " + size + " tasks in the list.");
+                    System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println(LINE);
                     continue;
                 }
