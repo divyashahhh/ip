@@ -1,17 +1,10 @@
+package cs2103;
+
 import java.util.Scanner;
 
 public class Paneer {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String logo =
-                """
-                         ____                             \s
-                        |  _ \\   __ _  _ __   ___  ___ _ __\s
-                        | |_) | / _` || '_ \\ / _ \\/ _ \\ '__|
-                        |  __/ | (_| || | | |  __/  __/ |  \s
-                        |_|     \\__,_||_| |_|\\___|\\___|_|  \s
-                        """;
-        System.out.println("Hello from\n" + logo);
 
         final String LINE = "____________________________________________________________";
 
@@ -20,7 +13,7 @@ public class Paneer {
 
         System.out.println(LINE);
         System.out.println(" Hello! I'm Paneer");
-        System.out.println(" What can I do for you today?");
+        System.out.println(" What can I cook up for you today?");
         System.out.println(LINE);
 
         while (true) {
@@ -29,7 +22,7 @@ public class Paneer {
             // exit
             if (input.equalsIgnoreCase("bye")) {
                 System.out.println(LINE);
-                System.out.println(" Byeeee! Paneer shall serve you another time!");
+                System.out.println(" Byeeee! Paneer shall serve you another day!");
                 System.out.println(LINE);
                 break;
             }
@@ -73,13 +66,44 @@ public class Paneer {
                 continue;
             }
             // add task
-            if (size < tasks.length) {
-                tasks[size] = new Task(input);
+            String[] parts = input.split(" ", 2); // split into [command, rest]
+            String command = parts[0];
+            String rest = (parts.length > 1) ? parts[1] : "";
+
+            Task newTask = null;
+
+            if (command.equalsIgnoreCase("todo")) {
+                newTask = new ToDos(rest);
+
+            } else if (command.equalsIgnoreCase("deadline")) {
+                String[] dparts = rest.split("/by", 2);
+                if (dparts.length == 2) {
+                    newTask = new Deadline(dparts[0].trim(), dparts[1].trim());
+                }
+
+            } else if (command.equalsIgnoreCase("event")) {
+                String[] fparts = rest.split("/from", 2);
+                if (fparts.length == 2) {
+                    String desc = fparts[0];
+                    String[] tparts = fparts[1].split("/to", 2);
+                    if (tparts.length == 2) {
+                        newTask = new Event(desc, tparts[0].trim(), tparts[1].trim());
+                    }
+                }
+            }
+
+            if (newTask != null && size < tasks.length) {
+                tasks[size] = newTask;
                 size++;
                 System.out.println(LINE);
-                System.out.println(" added: " + input);
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("   " + newTask);
+                System.out.println(" Now you have " + size + " tasks in the list.");
                 System.out.println(LINE);
+                continue;
             }
+
+
         }
 
         sc.close();

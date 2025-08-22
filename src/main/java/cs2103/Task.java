@@ -1,5 +1,8 @@
-public class Task {
-        private final String description;
+package cs2103;
+
+public abstract class Task {
+
+        public final String description;
         private boolean isDone;
 
         public Task(String description) {
@@ -19,9 +22,11 @@ public class Task {
             return (isDone ? "[X]" : "[ ]");
         }
 
+        abstract String icon();
+
         @Override
         public String toString() {
-            return getStatusIcon() + " " + description;
+            return icon() + getStatusIcon() + " " + description;
         }
 }
 
