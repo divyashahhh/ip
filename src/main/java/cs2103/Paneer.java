@@ -2,20 +2,38 @@ package cs2103;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 
 public class Paneer {
+
     public static void main(String[] args) {
+
+        Path cwd = Paths.get(System.getProperty("user.dir"));
+        Path projectRoot = cwd.getFileName().toString().equals("text-ui-test")
+                ? cwd.getParent()
+                : cwd;
+
+        final Path SAVE_FILE = projectRoot.resolve("data").resolve("paneer.txt");
+        Storage storage = new Storage(SAVE_FILE);
+        List<Task> tasks = new ArrayList<>(storage.load());
+
         Scanner sc = new Scanner(System.in);
 
         final String LINE = "____________________________________________________________";
-
-        ArrayList<Task> tasks = new ArrayList<>();
 
 
         System.out.println(LINE);
         System.out.println(" Hello! I'm Paneer");
         System.out.println(" What can I cook up for you today?");
         System.out.println(LINE);
+
+        if (!tasks.isEmpty()) {
+            printCurrentList(tasks, LINE);
+        }
+
 
         while (true) {
             String input = sc.nextLine();
@@ -50,6 +68,7 @@ public class Paneer {
                     int index = (c - '0') - 1;                 // convert char to number
                     if (index >= 0 && index < tasks.size()) {
                         tasks.get(index).markDone();
+                        storage.save(tasks);
                         System.out.println(LINE);
                         System.out.println(" Nice! I've marked this task as done:");
                         System.out.println("   " + tasks.get(index));
@@ -64,6 +83,7 @@ public class Paneer {
                     int index = (c - '0') - 1;
                     if (index >= 0 && index < tasks.size()) {
                         tasks.get(index).markUndone();
+                        storage.save(tasks);
                         System.out.println(LINE);
                         System.out.println(" OK, I've marked this task as not done yet:");
                         System.out.println("   " + tasks.get(index));
@@ -83,11 +103,13 @@ public class Paneer {
 
                 if (command.equals("delete")) {
                     Task removed = tasks.remove((Integer.parseInt(parts[1]) -1));
+                    storage.save(tasks);
                     System.out.println(LINE);
                     System.out.println(" Noted. I've removed this task:");
                     System.out.println("   " + removed);
                     System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println(LINE);
+                    continue;
                 }
 
                 if (command.equalsIgnoreCase("todo")) {
@@ -118,12 +140,12 @@ public class Paneer {
 
                 if (newTask != null) {
                     tasks.add(newTask);
+                    storage.save(tasks);
                     System.out.println(LINE);
                     System.out.println(" Got it. I've added this task:");
                     System.out.println("   " + newTask);
                     System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
                     System.out.println(LINE);
-                    continue;
                 }
 
 
@@ -135,6 +157,15 @@ public class Paneer {
             }
 
         }
+    }
+
+    private static void printCurrentList(java.util.List<Task> tasks, String LINE) {
+        System.out.println(LINE);
+        System.out.println(" Here are the tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(" " + (i + 1) + "." + tasks.get(i));
+        }
+        System.out.println(LINE);
     }
 }
 

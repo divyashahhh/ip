@@ -19,4 +19,8 @@ public class Deadline extends Task {
         return icon() + getStatusIcon() + " " + description + " (by: " + by + ")";
     }
 
+    public String getBy() {
+        return this.by;
+    }
+
 }

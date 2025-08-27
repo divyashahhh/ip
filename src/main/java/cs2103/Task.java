@@ -3,7 +3,7 @@ package cs2103;
 public abstract class Task {
 
         public final String description;
-        private boolean isDone;
+        boolean isDone;
 
         public Task(String description) {
             this.description = description;
@@ -27,6 +27,10 @@ public abstract class Task {
         @Override
         public String toString() {
             return icon() + getStatusIcon() + " " + description;
+        }
+
+        public String getDescription() {
+            return this.description;
         }
 }
 

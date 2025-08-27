@@ -20,4 +20,12 @@ public class Event extends Task {
         return icon() + getStatusIcon() + " " + description + " (from: " + startTime + ", to: " + endTime + ")";
     }
 
+    public String getFrom() {
+        return startTime;
+    }
+
+    public String getTo() {
+        return endTime;
+    }
+
 }
