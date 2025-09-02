@@ -92,7 +92,7 @@ public class Storage {
         }
     }
 
-
+    // Serializes all text output by chatbot.
     private String serialize(Task t) {
         String done = t.isDone ? "1" : "0";
         String desc = t.getDescription();

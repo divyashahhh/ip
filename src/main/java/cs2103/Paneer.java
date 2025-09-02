@@ -21,7 +21,7 @@ public class Paneer {
         loaded = new TaskList(storage.load());
         this.tasks = loaded;
     }
-
+// Runs the chatbot to use parser, storage and events classes.
     public void run() {
         ui.showWelcome();
 
