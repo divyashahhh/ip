@@ -1,4 +1,4 @@
-# Duke User Guide
+# cs2103.Paneer User Guide
 
 // Update the title above to match the actual product name
 
