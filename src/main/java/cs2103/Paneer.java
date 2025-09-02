@@ -89,6 +89,13 @@ public class Paneer {
                         }
                         break;
                     }
+
+                    case FIND: {
+                        var matches = tasks.find(pc.desc);
+                        ui.showFind(matches);
+                        break;
+                    }
+
                     default:
                         ui.showError("Unknown command.");
                 }

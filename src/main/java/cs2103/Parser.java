@@ -32,7 +32,13 @@ public class Parser {
                         throw new PaneerException("I have no idea what you mean, try again.");
                     }
                     return ParsedCommand.addTodo(rest);
-                case "deadline": {
+                case "find":
+                    if (rest.isEmpty()) {
+                        throw new PaneerException("Tell Paneer what to find, e.g., find book");
+                    }
+                    return ParsedCommand.find(rest);
+
+                    case "deadline": {
                     String[] deadlineParts = rest.split(" /by ", 2);
                     if (deadlineParts.length < 2 || deadlineParts[0].trim().isEmpty() || deadlineParts[1].trim().isEmpty()) {
                         throw new PaneerException(
@@ -76,7 +82,7 @@ public class Parser {
 
 
         public static class ParsedCommand {
-            public enum Type { EXIT, LIST, MARK, UNMARK, DELETE, ADD_TODO, ADD_DEADLINE, ADD_EVENT }
+            public enum Type { EXIT, LIST, MARK, UNMARK, DELETE, ADD_TODO, ADD_DEADLINE, ADD_EVENT, FIND }
 
             public final Type type;
             public final Integer index;     // for mark/unmark/delete
@@ -100,6 +106,7 @@ public class Parser {
             public static ParsedCommand addTodo(String desc) { return new ParsedCommand(Type.ADD_TODO, null, desc, null, null); }
             public static ParsedCommand addDeadline(String desc, String byRaw) { return new ParsedCommand(Type.ADD_DEADLINE, null, desc, byRaw, null); }
             public static ParsedCommand addEvent(String desc, String startRaw, String endRaw) { return new ParsedCommand(Type.ADD_EVENT, null, desc, startRaw, endRaw); }
+            public static ParsedCommand find(String keyword) { return new ParsedCommand(Type.FIND, null, keyword, null, null); }
         }
 }
 

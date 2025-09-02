@@ -9,9 +9,6 @@ public class TaskList {
 
         private final List<Task> tasks;
 
-        public TaskList() {
-            this.tasks = new ArrayList<>();
-        }
 
         public TaskList(List<Task> initial) {
             this.tasks = new ArrayList<>(initial);
@@ -23,10 +20,6 @@ public class TaskList {
 
         public List<Task> asUnmodifiableList() {
             return java.util.Collections.unmodifiableList(tasks);
-        }
-
-        public Task get(int zeroBasedIndex) {
-            return tasks.get(zeroBasedIndex);
         }
 
         public Task add(Task t) {
@@ -48,6 +41,17 @@ public class TaskList {
             Task t = tasks.get(zeroBasedIndex);
             t.markUndone();
             return t;
+        }
+
+        public List<Task> find(String keyword) {
+            String k = keyword.toLowerCase();
+            List<Task> out = new ArrayList<>();
+            for (Task t : tasks) {
+                if (t.getDescription().toLowerCase().contains(k)) {
+                out.add(t);
+                }
+            }
+            return out;
         }
 }
 

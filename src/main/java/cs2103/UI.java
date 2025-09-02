@@ -78,4 +78,17 @@ public class UI {
         System.out.println(" " + message);
         showLine();
     }
+
+    public void showFind(List<Task> matches) {
+        showLine();
+        if (matches.isEmpty()) {
+            System.out.println(" No matching tasks found :(");
+        } else {
+            System.out.println(" Paneer found these matching tasks in your list:");
+            for (int i = 0; i < matches.size(); i++) {
+                System.out.printf(" %d.%s%n", i + 1, matches.get(i));
+            }
+        }
+        showLine();
+    }
 }
