@@ -6,8 +6,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Saves/loads tasks to a single file at project root
@@ -17,6 +19,9 @@ import java.util.List;
  *   E | 1 | description | from | to
  */
 public class Storage {
+    private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ISO_LOCAL_DATE;           // 2019-12-02
+    private static final DateTimeFormatter DT_FMT   = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"); // 2019-12-02 1200
+
     private final Path file;
 
     public Storage(Path file) {
@@ -87,17 +92,20 @@ public class Storage {
         }
     }
 
+
     private String serialize(Task t) {
         String done = t.isDone ? "1" : "0";
         String desc = t.getDescription();
+
         if (t instanceof ToDos) {
             return "T | " + done + " | " + desc;
         } else if (t instanceof Deadline d) {
-            return "D | " + done + " | " + desc + " | " + d.getBy();
+            return "D | " + done + " | " + desc + " | " + d.getBy().format(DATE_FMT);
         } else if (t instanceof Event) {
             Event e = (Event) t;
-            return "E | " + done + " | " + desc + " | " + e.getFrom() + " | " + e.getTo();
+            return "E | " + done + " | " + desc + " | "
+                    + e.getFrom().format(DT_FMT) + " | " + e.getTo().format(DT_FMT);
         }
-        return "T | " + done + " | " + desc; // fallback
+        return "T | " + done + " | " + desc;
     }
 }
