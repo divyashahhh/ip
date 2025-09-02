@@ -1,0 +1,2 @@
+T | 0 | meeting
+D | 0 | lunch | 2025-09-07
