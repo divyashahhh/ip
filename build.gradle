@@ -2,33 +2,35 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 dependencies {
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly  'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+}
+
+application {
+    mainClass.set('Launcher')
+}
+
+javafx {
+    version = '17.0.7'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 test {
     useJUnitPlatform()
-
-    testLogging {
-        events "passed", "skipped", "failed"
-
-        showExceptions true
-        exceptionFormat "full"
-        showCauses true
-        showStackTraces true
-        showStandardStreams = false
-    }
-}
-
-application {
-    mainClass.set("cs2103.Paneer")
 }
 
 shadowJar {
@@ -40,6 +42,7 @@ shadowJar {
     }
 }
 
-run{
+run {
+    jvmArgs += ['--add-modules', 'javafx.controls,javafx.fxml']
     standardInput = System.in
 }

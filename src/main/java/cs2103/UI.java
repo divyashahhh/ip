@@ -91,4 +91,21 @@ public class UI {
         }
         showLine();
     }
+
+    public static String formatList(java.util.List<Task> tasks) {
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(String.format("%d.%s%n", i + 1, tasks.get(i)));
+        }
+        return sb.toString().trim();
+    }
+
+    public static String formatFind(java.util.List<Task> tasks) {
+        if (tasks.isEmpty()) return "No matching tasks found.";
+        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(String.format("%d.%s%n", i + 1, tasks.get(i)));
+        }
+        return sb.toString().trim();
+    }
 }
