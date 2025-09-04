@@ -1,5 +1,6 @@
-T | 0 | meeting
 D | 1 | lunch | 2025-09-07
 T | 0 | meet prof
 T | 1 | meeting
 D | 0 | lunch | 2025-09-07
+T | 0 | meet friend
+T | 0 | meeting
