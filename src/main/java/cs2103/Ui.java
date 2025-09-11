@@ -36,7 +36,7 @@ public class Ui {
         System.out.println(" Here are the tasks in your list:");
 
         for(int i = 0; i < tasks.size(); ++i) {
-            System.out.println(" " + (i + 1) + "." + String.valueOf(tasks.get(i)));
+            System.out.println(" " + (i + 1) + "." + tasks.get(i));
         }
 
         this.showLine();
@@ -121,5 +121,25 @@ public class Ui {
 
             return sb.toString().trim();
         }
+    }
+
+    public static String formatSorted(java.util.List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return "No tasks to sort.";
+        }
+        StringBuilder sb = new StringBuilder("Here are your tasks sorted by deadline:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(String.format("%d.%s%n", i + 1, tasks.get(i)));
+        }
+        return sb.toString().trim();
+    }
+
+    public void showSorted(List<Task> tasks) {
+        showLine();
+        System.out.println("Here are your tasks sorted by deadline:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(" " + (i + 1) + "." + tasks.get(i));
+        }
+        showLine();
     }
 }

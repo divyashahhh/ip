@@ -3,6 +3,7 @@ package cs2103;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 /**
  * Main application that wires Ui, Storage, Parser, and TaskList together.
@@ -89,6 +90,11 @@ public class Paneer  {
                     } catch (DateTimeParseException e) {
                         return "☹ OOPS! Times must be like 2019-12-02 1400 (or 2019-12-02 14:00).";
                     }
+                }
+
+                case SORT: {
+                    List<Task> sorted = tasks.sortedByDeadline();
+                    return Ui.formatSorted(sorted);
                 }
 
                 default:
@@ -186,6 +192,11 @@ public class Paneer  {
                         } catch (DateTimeParseException e) {
                             uI.showError("☹ OOPS! Times must be like 2019-12-02 1400 (or 2019-12-02 14:00).");
                         }
+                        break;
+                    }
+                    case SORT: {
+                        List<Task> sorted = tasks.sortedByDeadline();
+                        uI.showSorted(sorted);
                         break;
                     }
 

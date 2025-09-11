@@ -1,5 +1,5 @@
 package cs2103;
-import java.time.format.DateTimeParseException;
+
 
 public class Parser {
     /**
@@ -63,6 +63,8 @@ public class Parser {
                     }
                     return ParsedCommand.addEvent(desc, toParts[0].trim(), toParts[1].trim());
                 }
+                case "sort":
+                    return new ParsedCommand(ParsedCommand.Type.SORT, null, null, null, null);
                 default:
                     throw new PaneerException("Paneer can't tell what that means! Try: list, todo, deadline, event, mark, unmark, delete, bye.");
             }
@@ -85,7 +87,7 @@ public class Parser {
 
 
         public static class ParsedCommand {
-            public enum Type { EXIT, LIST, MARK, UNMARK, DELETE, ADD_TODO, ADD_DEADLINE, ADD_EVENT, FIND }
+            public enum Type { EXIT, LIST, MARK, UNMARK, DELETE, ADD_TODO, ADD_DEADLINE, ADD_EVENT, FIND, SORT }
 
             public final Type type;
             public final Integer index;     // for mark/unmark/delete
@@ -110,6 +112,7 @@ public class Parser {
             public static ParsedCommand addDeadline(String desc, String byRaw) { return new ParsedCommand(Type.ADD_DEADLINE, null, desc, byRaw, null); }
             public static ParsedCommand addEvent(String desc, String startRaw, String endRaw) { return new ParsedCommand(Type.ADD_EVENT, null, desc, startRaw, endRaw); }
             public static ParsedCommand find(String keyword) { return new ParsedCommand(Type.FIND, null, keyword, null, null); }
+
         }
 }
 

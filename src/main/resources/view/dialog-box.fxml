@@ -4,9 +4,19 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox prefHeight="103.0" prefWidth="195.0" spacing="8" style="-fx-padding: 8;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs2103.gui.DialogBox">
+<HBox prefWidth="195.0"
+      spacing="8"
+      style="-fx-padding: 8;"
+      xmlns="http://javafx.com/javafx/24.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="cs2103.gui.DialogBox">
 <children/>
-    <ImageView fx:id="displayPicture" fitHeight="89.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true"/>
+    <ImageView fx:id="displayPicture"
+               fitHeight="89.0"
+               fitWidth="93.0"
+               pickOnBounds="true"
+               preserveRatio="true"/>
+
     <Label fx:id="dialog"
            wrapText="true"
            textOverrun="CLIP"

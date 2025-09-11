@@ -1,6 +1,10 @@
 package cs2103;
+import java.awt.color.ICC_ColorSpace;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TaskList {
     /**
@@ -53,6 +57,19 @@ public class TaskList {
             }
             return out;
         }
+
+        public List<Task> sortedByDeadline() {
+            return tasks.stream()
+                   .sorted(Comparator.comparing(t -> (t instanceof Deadline)
+                                                            ? ((Deadline) t).getBy()
+                                                            : LocalDate.MAX
+                                                ))
+                   .collect(Collectors.toList());
+        }
+
+
+
+
 }
 
 
