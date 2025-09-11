@@ -21,8 +21,8 @@ import java.util.List;
 public class Storage {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ISO_LOCAL_DATE;           // 2019-12-02
     private static final DateTimeFormatter DT_FMT   = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm"); // 2019-12-02 1200
-
     private final Path file;
+
 
     public Storage(Path file) {
         this.file = file;
@@ -72,6 +72,8 @@ public class Storage {
 
     /** Save all tasks, overwriting the file. */
     public void save(List<Task> tasks) {
+        assert tasks != null : "save: data must not be null";
+        assert file != null : "save: filePath must not be null";
         try {
             Path parent = file.getParent();
             if (parent != null && !Files.exists(parent)) {

@@ -8,11 +8,14 @@ public class Parser {
      */
 
         public static ParsedCommand parse(String input) throws PaneerException {
+            assert input != null : "Parser.parse received null input";
             if (input.isEmpty()) {
                 throw new PaneerException("Who do you think I am? Tofu? Type something worthy of my help!");
             }
 
             String[] tokens = input.split(" ", 2);
+            assert tokens.length >= 1 : "Tokenizer should yield at least one token";
+            assert tokens[0] != null && !tokens[0].isBlank() : "Command word should not be blank";
             String command = tokens[0];
             String rest = (tokens.length > 1) ? tokens[1].trim() : "";
 
