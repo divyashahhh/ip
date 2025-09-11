@@ -1,19 +1,25 @@
 D | 1 | lunch | 2025-09-07
 T | 0 | meet prof
-T | 1 | meeting
-D | 0 | lunch | 2025-09-07
-T | 0 | meet friend
 T | 0 | meeting
 T | 0 | meeting
 T | 0 | meeting
 T | 0 | meeting
 T | 0 | meeting
 T | 0 | meeting
+<<<<<<< HEAD
+T | 0 | meet gf
+T | 0 | meeting
+D | 0 | book | 2019-12-02
+D | 0 | finish project | 2019-11-28
+=======
 T | 0 | meeting
 T | 0 | meeting
 T | 0 | meeting
 T | 0 | meet gf
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 T | 0 | meeting
 =======
+>>>>>>> master
 >>>>>>> master
