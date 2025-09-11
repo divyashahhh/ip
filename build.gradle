@@ -22,6 +22,7 @@ dependencies {
 
 application {
     mainClass.set('Launcher')
+    applicationDefaultJvmArgs = ["-ea"]
 }
 
 javafx {
