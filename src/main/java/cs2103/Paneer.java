@@ -7,19 +7,18 @@ import java.time.format.DateTimeParseException;
 /**
  * Main application that wires Ui, Storage, Parser, and TaskList together.
  */
-public class Paneer {
+public class Paneer  {
 
-    private final UI ui;
+    private final Ui uI;
     private final Storage storage;
     private final TaskList tasks;
 
     public Paneer(String filePath) {
         assert filePath != null && !filePath.isBlank() : "Paneer filePath must not be empty";
-        this.ui = new UI();
+        this.uI = new Ui();
         this.storage = new Storage(Paths.get(filePath));
-        TaskList loaded = new TaskList(storage.load());
-        this.tasks = loaded;
-        assert ui != null && storage != null && tasks != null
+        this.tasks = new TaskList(storage.load());
+        assert uI != null && storage != null && tasks != null
                 : "Paneer requires ui, storage, and tasks initialized";
 
     }
@@ -37,11 +36,11 @@ public class Paneer {
 
 
                 case LIST:
-                    return UI.formatList(tasks.asUnmodifiableList());
+                    return Ui.formatList(tasks.asUnmodifiableList());
 
                 case FIND: {
                     var matches = tasks.find(pc.desc);
-                    return UI.formatFind(matches);
+                    return Ui.formatFind(matches);
                 }
 
                 case MARK: {
@@ -118,53 +117,53 @@ public class Paneer {
 
     /** Runs the console app (text-UI). */
     public void run() {
-        ui.showWelcome();
+        uI.showWelcome();
 
         if (tasks.size() > 0) {
-            ui.showList(tasks.asUnmodifiableList());
+            uI.showList(tasks.asUnmodifiableList());
         }
 
         boolean isExit = false;
         while (!isExit) {
             try {
-                String fullCommand = ui.readCommand();
+                String fullCommand = uI.readCommand();
                 Parser.ParsedCommand pc = Parser.parse(fullCommand);
 
                 switch (pc.type) {
                     case EXIT:
-                        ui.showExit();
+                        uI.showExit();
                         isExit = true;
                         break;
 
                     case LIST:
-                        ui.showList(tasks.asUnmodifiableList());
+                        uI.showList(tasks.asUnmodifiableList());
                         break;
 
                     case MARK: {
                         Task t = tasks.mark(pc.index);
                         storage.save(tasks.asUnmodifiableList());
-                        ui.showMark(t);
+                        uI.showMark(t);
                         break;
                     }
 
                     case UNMARK: {
                         Task t = tasks.unmark(pc.index);
                         storage.save(tasks.asUnmodifiableList());
-                        ui.showUnmark(t);
+                        uI.showUnmark(t);
                         break;
                     }
 
                     case DELETE: {
                         Task removed = tasks.remove(pc.index);
                         storage.save(tasks.asUnmodifiableList());
-                        ui.showRemove(removed, tasks.size());
+                        uI.showRemove(removed, tasks.size());
                         break;
                     }
 
                     case ADD_TODO: {
                         Task t = tasks.add(new ToDos(pc.desc));
                         storage.save(tasks.asUnmodifiableList());
-                        ui.showAdd(t, tasks.size());
+                        uI.showAdd(t, tasks.size());
                         break;
                     }
 
@@ -172,9 +171,9 @@ public class Paneer {
                         try {
                             Task t = tasks.add(new Deadline(pc.desc, pc.when1));
                             storage.save(tasks.asUnmodifiableList());
-                            ui.showAdd(t, tasks.size());
+                            uI.showAdd(t, tasks.size());
                         } catch (DateTimeParseException e) {
-                            ui.showError("☹ OOPS! Date must be like 2019-12-02 or 2/12/2019 (or a weekday name).");
+                            uI.showError("☹ OOPS! Date must be like 2019-12-02 or 2/12/2019 (or a weekday name).");
                         }
                         break;
                     }
@@ -183,25 +182,25 @@ public class Paneer {
                         try {
                             Task t = tasks.add(new Event(pc.desc, pc.when1, pc.when2));
                             storage.save(tasks.asUnmodifiableList());
-                            ui.showAdd(t, tasks.size());
+                            uI.showAdd(t, tasks.size());
                         } catch (DateTimeParseException e) {
-                            ui.showError("☹ OOPS! Times must be like 2019-12-02 1400 (or 2019-12-02 14:00).");
+                            uI.showError("☹ OOPS! Times must be like 2019-12-02 1400 (or 2019-12-02 14:00).");
                         }
                         break;
                     }
 
                     case FIND: {
                         var matches = tasks.find(pc.desc);
-                        ui.showFind(matches);
+                        uI.showFind(matches);
                         break;
                     }
 
                     default:
-                        ui.showError("Unknown command.");
+                        uI.showError("Unknown command.");
                 }
 
             } catch (PaneerException e) {
-                ui.showError(e.getMessage());
+                uI.showError(e.getMessage());
             }
         }
     }
