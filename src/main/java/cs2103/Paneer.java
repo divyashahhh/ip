@@ -15,10 +15,18 @@ public class Paneer  {
 
     public Paneer(String filePath) {
         assert filePath != null && !filePath.isBlank() : "Paneer filePath must not be empty";
+<<<<<<< HEAD
         this.uI = new Ui();
         this.storage = new Storage(Paths.get(filePath));
         this.tasks = new TaskList(storage.load());
         assert uI != null && storage != null && tasks != null
+=======
+        this.ui = new UI();
+        this.storage = new Storage(Paths.get(filePath));
+        TaskList loaded = new TaskList(storage.load());
+        this.tasks = loaded;
+        assert ui != null && storage != null && tasks != null
+>>>>>>> master
                 : "Paneer requires ui, storage, and tasks initialized";
 
     }
