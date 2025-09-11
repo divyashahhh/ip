@@ -14,10 +14,14 @@ public class Paneer {
     private final TaskList tasks;
 
     public Paneer(String filePath) {
+        assert filePath != null && !filePath.isBlank() : "Paneer filePath must not be empty";
         this.ui = new UI();
         this.storage = new Storage(Paths.get(filePath));
         TaskList loaded = new TaskList(storage.load());
         this.tasks = loaded;
+        assert ui != null && storage != null && tasks != null
+                : "Paneer requires ui, storage, and tasks initialized";
+
     }
 
     /* GUI */
@@ -30,6 +34,7 @@ public class Paneer {
             switch (pc.type) {
                 case EXIT:
                     return "Byeeee! Paneer shall serve you another day!";
+
 
                 case LIST:
                     return UI.formatList(tasks.asUnmodifiableList());
@@ -100,6 +105,7 @@ public class Paneer {
 
     /** Used by MainWindow to decide when to close the app. */
     public boolean shouldExit(String input) {
+
         try {
             Parser.ParsedCommand pc = Parser.parse(input == null ? "" : input.trim());
             return pc.type == Parser.ParsedCommand.Type.EXIT;
@@ -204,6 +210,9 @@ public class Paneer {
         Path cwd = Paths.get(System.getProperty("user.dir"));
         Path projectRoot = cwd.getFileName().toString().equals("text-ui-test") ? cwd.getParent() : cwd;
         String savePath = projectRoot.resolve("data").resolve("paneer.txt").toString();
+        assert cwd != null : "cwd must resolve";
+        assert projectRoot != null : "projectRoot must resolve";
+        assert savePath != null && !savePath.isBlank() : "savePath must not be blank";
         new Paneer(savePath).run();
     }
 }
