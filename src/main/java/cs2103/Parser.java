@@ -10,7 +10,7 @@ public class Parser {
         public static ParsedCommand parse(String input) throws PaneerException {
             assert input != null : "Parser.parse received null input";
             if (input.isEmpty()) {
-                throw new PaneerException("Who do you think I am? Tofu? Type something worthy of my help!");
+                throw new PaneerException("Who do you think I am? Tofu? Feed me a command to cook!");
             }
 
             String[] tokens = input.split(" ", 2);
@@ -44,7 +44,7 @@ public class Parser {
                     String from = extractArg(args, "from:");
                     String to = extractArg(args, "to:");
                     if (desc == null && by == null && from == null && to == null) {
-                        throw new PaneerException("No valid fields found. Use desc:, by:, from:, to:");
+                        throw new PaneerException("No valid fields found. Use desc:, by:, from:, to: (don’t skimp on the masala)");
                     }
                     ParsedCommand pc = new ParsedCommand(ParsedCommand.Type.EDIT, idx, desc, from, to);
                     pc.when2 = by; // reuse when2 to carry 'by' (or to) depending on type
@@ -58,12 +58,12 @@ public class Parser {
                     return ParsedCommand.delete(parseIndex(rest));
                 case "todo":
                     if (rest.isEmpty()) {
-                        throw new PaneerException("I have no idea what you mean, try again.");
+                        throw new PaneerException("I have no idea what you mean, try again — add some flavour.");
                     }
                     return ParsedCommand.addTodo(rest);
                 case "find":
                     if (rest.isEmpty()) {
-                        throw new PaneerException("Tell Paneer what to find, e.g., find book");
+                        throw new PaneerException("Tell Paneer what to find, e.g., find book — what’s cooking?");
                     }
                     return ParsedCommand.find(rest);
 
@@ -92,7 +92,7 @@ public class Parser {
                 case "sort":
                     return new ParsedCommand(ParsedCommand.Type.SORT, null, null, null, null);
                 default:
-                    throw new PaneerException("Paneer can't tell what that means! Try: list, todo, deadline, event, mark, unmark, delete, bye.");
+                    throw new PaneerException("Paneer can't tell what that means! Try: list, todo, deadline, event, mark, unmark, delete, bye. (or ask for a tasting menu)");
             }
         }
 

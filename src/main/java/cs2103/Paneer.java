@@ -42,7 +42,7 @@ public class Paneer  {
                 int idx = Integer.parseInt(parts[1]);
                 String replacement = parts.length >= 3 ? parts[2] : "";
                 if (replacement.isEmpty()) {
-                    return "No replacement provided.";
+                    return "No replacement provided — my spices need substance!";
                 }
                 history.push(tasks.snapshot());
                 // Replace: interpret replacement as a fresh command that creates a task;
@@ -60,7 +60,7 @@ public class Paneer  {
                         newTask = new Event(npc.desc, npc.when1, npc.when2);
                         break;
                     default:
-                        return "Please enter a task command (todo/deadline/event).";
+                        return "Please enter a task command (todo/deadline/event) — not just chutney.";
                 }
                 Task was = tasks.get(idx);
                 if (was.isDone) {
@@ -68,7 +68,7 @@ public class Paneer  {
                 }
                 tasks.set(idx, newTask);
                 storage.save(tasks.asUnmodifiableList());
-                return "Replaced task " + (idx + 1) + ":\n  " + newTask;
+                return "Replaced task " + (idx + 1) + ":\n  " + newTask + "\nTaste test approved.";
             }
 
             Parser.ParsedCommand pc = Parser.parse(raw);
@@ -76,17 +76,17 @@ public class Paneer  {
             switch (pc.type) {
                 case UNDO: {
                     if (history.size() <= 1) {
-                        return "Nothing to undo.";
+                        return "Nothing to undo — the pan is already clean.";
                     }
                     // pop current state, revert to previous
                     history.pop();
                     List<Task> prev = new ArrayList<>(history.peek());
                     tasks.restore(prev);
                     storage.save(tasks.asUnmodifiableList());
-                    return "Undid last change.";
+                    return "Undid last change — like scraping the burnt bits off the tava.";
                 }
                 case EXIT:
-                    return "Byeeee! Paneer shall serve you another day!";
+                    return "Byeeee! Paneer shall serve you another day — garma garam!";
 
 
                 case LIST:
@@ -101,30 +101,30 @@ public class Paneer  {
                     history.push(tasks.snapshot());
                     Task t = tasks.mark(pc.index);
                     storage.save(tasks.asUnmodifiableList());
-                    return "Nice! I've marked this task as done:\n  " + t;
+                    return "Masaledaar! Marked as done:\n  " + t;
                 }
 
                 case UNMARK: {
                     history.push(tasks.snapshot());
                     Task t = tasks.unmark(pc.index);
                     storage.save(tasks.asUnmodifiableList());
-                    return "OK, I've marked this task as not done yet:\n  " + t;
+                    return "Keeping it on simmer — marked as not done yet:\n  " + t;
                 }
 
                 case DELETE: {
                     history.push(tasks.snapshot());
                     Task removed = tasks.remove(pc.index);
                     storage.save(tasks.asUnmodifiableList());
-                    return "Noted. I've removed this task:\n  " + removed
-                            + "\nNow you have " + tasks.size() + " tasks in the list.";
+                    return "Removed from the thali:\n  " + removed
+                            + "\nNow you have " + tasks.size() + " items on your platter.";
                 }
 
                 case ADD_TODO: {
                     history.push(tasks.snapshot());
                     Task t = tasks.add(new ToDos(pc.desc));
                     storage.save(tasks.asUnmodifiableList());
-                    return "Got it. I've added this task:\n  " + t
-                            + "\nNow you have " + tasks.size() + " tasks in the list.";
+                    return "Freshly added to the menu:\n  " + t
+                            + "\nNow you have " + tasks.size() + " items on your platter.";
                 }
 
                 case ADD_DEADLINE: {
@@ -132,10 +132,10 @@ public class Paneer  {
                         history.push(tasks.snapshot());
                         Task t = tasks.add(new Deadline(pc.desc, pc.when1));
                         storage.save(tasks.asUnmodifiableList());
-                        return "Got it. I've added this task:\n  " + t
-                                + "\nNow you have " + tasks.size() + " tasks in the list.";
+                        return "Freshly added to the menu:\n  " + t
+                                + "\nNow you have " + tasks.size() + " items on your platter.";
                     } catch (DateTimeParseException e) {
-                        return "☹ OOPS! Date must be like 2019-12-02 or 2/12/2019 (or a weekday name).";
+                        return "☹ OOPS! That date is undercooked. Use 2019-12-02 or 2/12/2019 (or a weekday name).";
                     }
                 }
 
@@ -144,10 +144,10 @@ public class Paneer  {
                         history.push(tasks.snapshot());
                         Task t = tasks.add(new Event(pc.desc, pc.when1, pc.when2));
                         storage.save(tasks.asUnmodifiableList());
-                        return "Got it. I've added this task:\n  " + t
-                                + "\nNow you have " + tasks.size() + " tasks in the list.";
+                        return "Freshly added to the menu:\n  " + t
+                                + "\nNow you have " + tasks.size() + " items on your platter.";
                     } catch (DateTimeParseException e) {
-                        return "☹ OOPS! Times must be like 2019-12-02 1400 (or 2019-12-02 14:00).";
+                        return "☹ OOPS! Those timings are too salty. Use 2019-12-02 1400 (or 2019-12-02 14:00).";
                     }
                 }
 
@@ -177,7 +177,7 @@ public class Paneer  {
                     }
                     tasks.set(pc.index, updated);
                     storage.save(tasks.asUnmodifiableList());
-                    return "Updated task:\n  " + updated;
+                    return "Updated the recipe:\n  " + updated;
                 }
 
                 case SORT: {
@@ -186,13 +186,13 @@ public class Paneer  {
                 }
 
                 default:
-                    return "Unknown command.";
+                    return "Unknown command — that recipe isn’t on the menu.";
             }
 
         } catch (PaneerException e) {
             return e.getMessage();
         } catch (Exception e) {
-            return "Paneer slipped: " + e.getMessage();
+            return "Paneer slipped on a chilli: " + e.getMessage();
         }
     }
 

@@ -17,13 +17,13 @@ class IntroDialog {
         alert.initOwner(owner);
         alert.initModality(Modality.WINDOW_MODAL);
         alert.setTitle("Welcome to Paneer");
-        alert.setHeaderText("Hello! I'm Paneer \nYour yummy friendly task sous-chef!");
+        alert.setHeaderText("Namaste! I'm Paneer, \nYour cheesy, chatty task sous-chef.");
 
         VBox content = new VBox(8);
         content.setPadding(new Insets(10));
 
-        Label intro = new Label("Paneer helps you track tasks. Type commands in the box below.\n"
-                + "Here are the rules and examples to get you cooking fast:");
+        Label intro = new Label("I help you marinate your plans and serve them on time.\n"
+                + "Type a command below — here are the recipes to get cooking fast:");
         intro.getStyleClass().add("intro-text");
 
         TextArea cmds = new TextArea(String.join("\n",
