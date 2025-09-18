@@ -1,0 +1,50 @@
+.root {
+    -fx-base: #ffffff;
+    -fx-background: #fafafa;
+    -fx-font-family: "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+.paneer-dialog {
+    -fx-font-size: 13px;
+}
+
+.intro-text {
+    -fx-font-size: 13px;
+}
+
+.intro-commands {
+    -fx-control-inner-background: #f7f7fb;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-padding: 8;
+}
+
+#dialogContainer {
+    -fx-background-color: transparent;
+}
+
+.bot-bubble {
+    -fx-background-color: #F2F2F7;
+    -fx-padding: 8 12;
+    -fx-background-radius: 12;
+}
+
+.user-bubble {
+    -fx-background-color: #DCF7C5;
+    -fx-padding: 8 12;
+    -fx-background-radius: 12;
+}
+
+/* Buttons/TextField */
+Button#sendButton {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+}
+
+TextField#userInput {
+    -fx-background-radius: 8;
+}
+
+

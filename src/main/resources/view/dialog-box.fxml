@@ -21,8 +21,7 @@
            wrapText="true"
            textOverrun="CLIP"
            HBox.hgrow="ALWAYS"
-           maxWidth="Infinity"
-           style="-fx-background-color: #F2F2F7; -fx-padding: 8 12; -fx-background-radius: 12;"/>
+           maxWidth="Infinity"/>
     <children/>
 </HBox>
 
