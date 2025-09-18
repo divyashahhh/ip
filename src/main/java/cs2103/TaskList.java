@@ -1,5 +1,4 @@
 package cs2103;
-import java.awt.color.ICC_ColorSpace;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -24,6 +23,14 @@ public class TaskList {
 
         public List<Task> asUnmodifiableList() {
             return java.util.Collections.unmodifiableList(tasks);
+        }
+
+        public Task get(int zeroBasedIndex) {
+            return tasks.get(zeroBasedIndex);
+        }
+
+        public void set(int zeroBasedIndex, Task t) {
+            tasks.set(zeroBasedIndex, t);
         }
 
         public Task add(Task t) {
@@ -67,9 +74,35 @@ public class TaskList {
                    .collect(Collectors.toList());
         }
 
+        /** Deep snapshot suitable for undo (new list + task re-instantiation). */
+        public List<Task> snapshot() {
+            List<Task> copy = new ArrayList<>(tasks.size());
+            for (Task t : tasks) {
+                Task cloned;
+                if (t instanceof Deadline) {
+                    Deadline d = (Deadline) t;
+                    // Use ISO-8601 for round-trippable parsing
+                    cloned = new Deadline(d.getDescription(), d.getBy().toString());
+                } else if (t instanceof Event) {
+                    Event e = (Event) t;
+                    // Use ISO-8601 LocalDateTime strings (accepted by parser)
+                    cloned = new Event(e.getDescription(), e.getFrom().toString(), e.getTo().toString());
+                } else {
+                    cloned = new ToDos(t.getDescription());
+                }
+                if (t.isDone) {
+                    cloned.markDone();
+                }
+                copy.add(cloned);
+            }
+            return copy;
+        }
 
-
-
+        /** Restore full list from a deep snapshot. */
+        public void restore(List<Task> snapshot) {
+            tasks.clear();
+            tasks.addAll(snapshot);
+        }
 }
 
 

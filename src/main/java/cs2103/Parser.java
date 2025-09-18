@@ -24,6 +24,32 @@ public class Parser {
                     return ParsedCommand.exit();
                 case "list":
                     return ParsedCommand.list();
+                case "undo":
+                    return new ParsedCommand(ParsedCommand.Type.UNDO, null, null, null, null);
+                case "edit": {
+                    // Syntax:
+                    // edit <index> desc:<text> [by:<date>] [from:<dt>] [to:<dt>]
+                    String[] first = rest.split(" ", 2);
+                    if (first.length == 0 || first[0].isBlank()) {
+                        throw new PaneerException("Tell Paneer which task to edit: edit <index> ...");
+                    }
+                    int idx = parseIndex(first[0]);
+                    String args = (first.length > 1) ? first[1].trim() : "";
+                    if (args.isEmpty()) {
+                        // Interactive edit: just index, Paneer will prompt for replacement
+                        return new ParsedCommand(ParsedCommand.Type.EDIT, idx, null, null, null);
+                    }
+                    String desc = extractArg(args, "desc:");
+                    String by = extractArg(args, "by:");
+                    String from = extractArg(args, "from:");
+                    String to = extractArg(args, "to:");
+                    if (desc == null && by == null && from == null && to == null) {
+                        throw new PaneerException("No valid fields found. Use desc:, by:, from:, to:");
+                    }
+                    ParsedCommand pc = new ParsedCommand(ParsedCommand.Type.EDIT, idx, desc, from, to);
+                    pc.when2 = by; // reuse when2 to carry 'by' (or to) depending on type
+                    return pc;
+                }
                 case "mark":
                     return ParsedCommand.mark(parseIndex(rest));
                 case "unmark":
@@ -87,13 +113,13 @@ public class Parser {
 
 
         public static class ParsedCommand {
-            public enum Type { EXIT, LIST, MARK, UNMARK, DELETE, ADD_TODO, ADD_DEADLINE, ADD_EVENT, FIND, SORT }
+            public enum Type { EXIT, LIST, MARK, UNMARK, DELETE, ADD_TODO, ADD_DEADLINE, ADD_EVENT, FIND, SORT, UNDO, EDIT }
 
             public final Type type;
             public final Integer index;     // for mark/unmark/delete
             public final String desc;       // for add
             public final String when1;      // deadline date OR event start
-            public final String when2;      // event end
+            public String when2;      // event end or deadline by
 
             private ParsedCommand(Type type, Integer index, String desc, String when1, String when2) {
                 this.type = type;
@@ -113,6 +139,19 @@ public class Parser {
             public static ParsedCommand addEvent(String desc, String startRaw, String endRaw) { return new ParsedCommand(Type.ADD_EVENT, null, desc, startRaw, endRaw); }
             public static ParsedCommand find(String keyword) { return new ParsedCommand(Type.FIND, null, keyword, null, null); }
 
+        }
+
+        private static String extractArg(String args, String key) {
+            int i = args.indexOf(key);
+            if (i < 0) return null;
+            int start = i + key.length();
+            int end = args.length();
+            // find next key occurrence to limit range
+            for (String k : new String[]{" desc:", " by:", " from:", " to:"}) {
+                int j = args.indexOf(k, start);
+                if (j >= 0 && j < end) end = j;
+            }
+            return args.substring(start, end).trim();
         }
 }
 

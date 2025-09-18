@@ -44,8 +44,10 @@ public class DialogBox {
             root.getChildren().remove(controller.dialog);
             root.getChildren().remove(controller.displayPicture);
             if (isBot) {
+                controller.dialog.getStyleClass().add("bot-bubble");
                 root.getChildren().addAll(controller.displayPicture, controller.dialog);
             } else {
+                controller.dialog.getStyleClass().add("user-bubble");
                 root.getChildren().addAll(controller.dialog, controller.displayPicture);
             }
 
