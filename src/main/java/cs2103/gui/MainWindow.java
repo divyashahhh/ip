@@ -26,7 +26,7 @@ public class MainWindow {
     /** Optional greeting from the bot on startup. */
     public void greet() {
         if (paneer == null) return;
-        addBot("Hello! I'm Paneer. What can I cook up for you today?");
+        addBot("Namaste! I'm Paneer  your task tandoor. What shall we simmer today?");
     }
 
     @FXML

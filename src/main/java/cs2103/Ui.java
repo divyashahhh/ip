@@ -18,8 +18,8 @@ public class Ui {
 
     public void showWelcome() {
         this.showLine();
-        System.out.println(" Hello! I'm Paneer");
-        System.out.println(" What can I cook up for you today?");
+        System.out.println(" Namaste! I'm Paneer — your spicy sidekick for tasks.");
+        System.out.println(" Tell me what to cook up, and I'll serve it hot.");
         this.showLine();
     }
 
@@ -33,7 +33,7 @@ public class Ui {
 
     public void showList(List<Task> tasks) {
         this.showLine();
-        System.out.println(" Here are the tasks in your list:");
+        System.out.println(" Here’s today’s menu — your tasks:");
 
         for(int i = 0; i < tasks.size(); ++i) {
             System.out.println(" " + (i + 1) + "." + tasks.get(i));
@@ -44,7 +44,7 @@ public class Ui {
 
     public void showAdd(Task t, int newCount) {
         this.showLine();
-        System.out.println(" Got it. I've added this task:");
+        System.out.println(" Freshly added to the menu:");
         System.out.println("   " + String.valueOf(t));
         System.out.println(" Now you have " + newCount + " tasks in the list.");
         this.showLine();
@@ -52,7 +52,7 @@ public class Ui {
 
     public void showRemove(Task t, int newCount) {
         this.showLine();
-        System.out.println(" Noted. I've removed this task:");
+        System.out.println(" Removed from the thali:");
         System.out.println("   " + String.valueOf(t));
         System.out.println(" Now you have " + newCount + " tasks in the list.");
         this.showLine();
@@ -60,21 +60,21 @@ public class Ui {
 
     public void showMark(Task t) {
         this.showLine();
-        System.out.println(" Nice! I've marked this task as done:");
+        System.out.println(" Masala! Marked as done:");
         System.out.println("   " + String.valueOf(t));
         this.showLine();
     }
 
     public void showUnmark(Task t) {
         this.showLine();
-        System.out.println(" OK, I've marked this task as not done yet:");
+        System.out.println(" Keeping it on the stove — marked as not done yet:");
         System.out.println("   " + String.valueOf(t));
         this.showLine();
     }
 
     public void showExit() {
         this.showLine();
-        System.out.println(" Byeeee! Paneer shall serve you another day!");
+        System.out.println(" Byeeee! Paneer will plate up again another day!");
         this.showLine();
     }
 
@@ -87,9 +87,9 @@ public class Ui {
     public void showFind(List<Task> matches) {
         this.showLine();
         if (matches.isEmpty()) {
-            System.out.println(" No matching tasks found :(");
+            System.out.println(" No matching dishes found :(");
         } else {
-            System.out.println(" Paneer found these matching tasks in your list:");
+            System.out.println(" Paneer found these matching bites in your list:");
 
             for(int i = 0; i < matches.size(); ++i) {
                 System.out.printf(" %d.%s%n", i + 1, matches.get(i));
